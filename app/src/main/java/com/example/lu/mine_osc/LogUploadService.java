@@ -4,6 +4,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.example.lu.mine_osc.util.StringUtil;
+
 import org.kymjs.kjframe.utils.FileUtils;
 
 import java.io.File;
@@ -25,6 +27,7 @@ public class LogUploadService extends Service {
         File log = FileUtils.getSaveFile("OSChina","OSCLog");
         try {
             FileInputStream stream = new FileInputStream(log);
+            String data = StringUtil.toStringConvert(stream);
 //            String data = stream
         } catch (FileNotFoundException e) {
             e.printStackTrace();
