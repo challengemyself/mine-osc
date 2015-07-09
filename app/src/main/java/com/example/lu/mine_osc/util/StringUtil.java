@@ -5,12 +5,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by Administrator on 2015/7/7.
  */
 public class StringUtil {
+    private final static ThreadLocal<SimpleDateFormat> format = new ThreadLocal<SimpleDateFormat>(){
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
+    private final static ThreadLocal<SimpleDateFormat> format2 = new ThreadLocal<SimpleDateFormat>(){
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
     /**
      * 将inputStream转换成字符串
      * @return
@@ -66,9 +80,28 @@ public class StringUtil {
         return true;
     }
 
+
+    /**
+     * 获取当前系统时间--格式：年-月-日 时：分：秒
+     * @return
+     */
     public static String getCurrentTime() {
         Calendar cd = Calendar.getInstance();
-        String currTime = cd.getTime().
-        return null;
+        return  format.get().format(cd.getTime());
     }
+
+    /**
+     * 获得long类型的日期
+     * @return
+     */
+    public static long getToday(){
+        Calendar calendar = Calendar.getInstance();
+        String date = format2.get().format(calendar.getTime());
+        date = date.replace("-","");
+        return Long.parseLong(date);
+    }
+
+
+
+
 }
