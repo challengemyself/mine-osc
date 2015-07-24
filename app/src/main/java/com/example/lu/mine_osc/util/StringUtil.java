@@ -68,7 +68,7 @@ public class StringUtil {
 
     public static String getCurrentTime() {
         Calendar cd = Calendar.getInstance();
-        String currTime = cd.getTime().
+        String currTime = cd.getTime().dfdfd
         return null;
     }
 }
