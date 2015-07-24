@@ -5,12 +5,30 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2015/7/7.
  */
 public class StringUtil {
+
+    public static ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>(){
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+    };
+
+    public static ThreadLocal<SimpleDateFormat>  dateformat1  = new ThreadLocal<SimpleDateFormat>(){
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
+        }
+    };
+
     /**
      * 将inputStream转换成字符串
      * @return
@@ -68,7 +86,35 @@ public class StringUtil {
 
     public static String getCurrentTime() {
         Calendar cd = Calendar.getInstance();
-        String currTime = cd.getTime().dfdfd
-        return null;
+        String currTime = dateFormat.get().format(cd.getTime());
+        return currTime;
     }
+
+    public static long getToday(){
+        String todayString = dateformat1.get().format(Calendar.getInstance().getTime());
+        String tempToday = todayString.replace("-", "");
+        return Long.parseLong(tempToday);
+    }
+
+    /**
+     * 获取时间差
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public long calDateDifferent(String date1, String date2) {
+        Date d1 = null;
+        Date d2 = null;
+        long diff = 0;
+        try {
+            d1 = dateFormat.get().parse(date1);
+            d2 = dateFormat.get().parse(date2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        diff = d2.getTime() - d1.getTime();
+        return diff;
+    }
+
+
 }
