@@ -9,11 +9,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  * Created by Administrator on 2015/7/7.
  */
 public class StringUtil {
+
+    public static final Pattern emailer = Pattern.compile("\\w+([-+.]\\w)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
+    public static final Pattern IMG_URL = Pattern.compile(".*?(gif|jpeg|png|jpg|bmp)");
 
     public static ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal<SimpleDateFormat>(){
         @Override
@@ -114,6 +118,30 @@ public class StringUtil {
         }
         diff = d2.getTime() - d1.getTime();
         return diff;
+    }
+
+    /**
+     * 判断是不是一个合法的电子邮件
+     * @param email
+     * @return
+     */
+    public static boolean isEmail(String email){
+        if(email==null||email.trim().length()==0){
+            return false;
+        }
+        return emailer.matcher(email).matches();
+    }
+
+    /**
+     * 判断是不是一个合法图片链接
+     * @param url
+     * @return
+     */
+    public static boolean isImageUrl(String url){
+        if (url==null||url.trim().length()==0){
+            return false;
+        }
+        return IMG_URL.matcher(url).matches();
     }
 
 
